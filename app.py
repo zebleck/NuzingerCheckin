@@ -11,7 +11,7 @@ pre_checkin_courses_url = (
 pre_checkin_url = "https://community.nimbuscloud.at/api/v1/checkin/toggle-pre-checkin"
 
 
-with open('profiles.cfg', 'r') as file:
+with open('profiles.json', 'r') as file:
     profiles = json.load(file)
 
 
