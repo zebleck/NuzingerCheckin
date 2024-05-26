@@ -19,12 +19,13 @@ jobs:
         python-version: '3.9'
 
     - name: Create profile.json from secret
-      run: echo "${{ secrets.PROFILES_JSON }}" > profiles.json
+      run: |
+        echo "${{ secrets.PROFILES_JSON }}" | jq '.' > profiles.json
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests  # Add any other dependencies your script needs
+        pip install requests
 
     - name: Run the script
       run: python app.py
