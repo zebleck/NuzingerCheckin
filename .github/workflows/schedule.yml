@@ -18,9 +18,12 @@ jobs:
       with:
         python-version: '3.9'
 
-    - name: Create profile.json from secret
-      run: |
-        echo "${{ secrets.PROFILES_JSON }}" > profiles.json
+    - name: create-json
+      id: create-json
+      uses: jsdaniell/create-json@v1.2.3
+      with:
+        name: "profiles.json"
+        json: ${{ secrets.PROFILES_JSON }}
 
     - name: Install dependencies
       run: |
