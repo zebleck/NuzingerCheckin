@@ -2,6 +2,7 @@ import requests
 from datetime import datetime
 import locale
 import json
+import logging
 
 # Define the URLs
 login_url = "https://community.nimbuscloud.at/api/v1/authenticate"
@@ -12,8 +13,9 @@ pre_checkin_url = "https://community.nimbuscloud.at/api/v1/checkin/toggle-pre-ch
 
 
 with open('profiles.json', 'r') as file:
-    print(file)
-    profiles = json.load(file)
+    text = file.read()
+    logging.warning(text)
+    profiles = json.loads(text)
 
 
 def parse_date(timestamp):
