@@ -20,7 +20,7 @@ jobs:
 
     - name: Create profile.json from secret
       run: |
-        echo "${{ secrets.PROFILES_JSON }}" | jq '.' > profiles.json
+        echo "${{ secrets.PROFILES_JSON }}" > profiles.json
 
     - name: Install dependencies
       run: |

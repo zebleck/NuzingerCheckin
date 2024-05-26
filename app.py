@@ -12,6 +12,7 @@ pre_checkin_url = "https://community.nimbuscloud.at/api/v1/checkin/toggle-pre-ch
 
 
 with open('profiles.json', 'r') as file:
+    print(file)
     profiles = json.load(file)
 
 
