@@ -54,6 +54,8 @@ def get_attendances(session, profile):
 def check_attendance(attendances, event):
     for month in attendances["attendances"]:
         for attendance in month["attendances"]:
+            print(attendance["displayName"], event["name"], attendance["displayName"] == event["name"])
+            print(parse_date(attendance["date"]), event["start_date"].strip(), parse_date(attendance["date"]) == event["start_date"].strip())
             if (
                 attendance["displayName"] == event["name"]
                 and parse_date(attendance["date"]) == event["start_date"].strip()
