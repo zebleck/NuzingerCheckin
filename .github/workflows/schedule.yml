@@ -19,7 +19,7 @@ jobs:
         python-version: '3.9'
 
     - name: Create profile.json from secret
-      run: echo "${{ secrets.PROFILE_JSON }}" > profiles.json
+      run: echo "${{ secrets.PROFILES_JSON }}" > profiles.json
 
     - name: Install dependencies
       run: |
