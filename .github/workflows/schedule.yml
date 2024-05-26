@@ -25,6 +25,11 @@ jobs:
         sudo locale-gen de_DE.UTF-8
         sudo update-locale
 
+    - name: Set timezone to Europe/Berlin
+      run: |
+        sudo timedatectl set-timezone Europe/Berlin
+        date
+
     - name: create-json
       id: create-json
       uses: jsdaniell/create-json@v1.2.3
