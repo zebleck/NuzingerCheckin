@@ -16,7 +16,7 @@ with open("profiles.json", "r") as file:
     profiles = json.load(file)
 
 
-def parse_date(timestamp):
+def parse_date(timestamp, include_weekday=True):
     try:
         locale.setlocale(locale.LC_TIME, "de_DE.UTF-8")
     except locale.Error:
@@ -24,7 +24,11 @@ def parse_date(timestamp):
             locale.setlocale(locale.LC_TIME, "de_DE")
         except locale.Error:
             locale.setlocale(locale.LC_TIME, "de_DE.utf8")
-    return datetime.fromtimestamp(int(timestamp)).strftime("%a %d.%m.").upper()
+    return (
+        datetime.fromtimestamp(int(timestamp)).strftime("%a %d.%m.").upper()
+        if include_weekday
+        else datetime.fromtimestamp(int(timestamp)).strftime("%d.%m.").upper()
+    )
 
 
 def parse_time(timestamp):
@@ -100,12 +104,21 @@ if __name__ == "__main__":
 
             # Find the specific event
             events = []
-            print(f"Looking for courses at {preferred_location}...")
+
+            date_in_ten_days = parse_date(
+                datetime.now().timestamp() + 60 * 60 * 24 * 12, include_weekday=False
+            )
+
+            print(
+                f"Looking for courses at {preferred_location} on {date_in_ten_days}..."
+            )
             for location in courses_data["content"]["locations"]:
                 if location is not None and location["name"] != preferred_location:
                     continue
                 for day in location["days"]:
                     for course in day["courses"]:
+                        if not date_in_ten_days in course["start_date"]:
+                            continue
                         for lesson in lesson_profile["lessons"]:
                             if (
                                 lesson["day"] in course["start_date"]
@@ -132,7 +145,7 @@ if __name__ == "__main__":
                 # Pre-checkin payload
                 pre_checkin_payload = {
                     "event": event_id,
-                    "selectedCustomer": "129471",
+                    "selectedCustomer": lesson_profile["selectedCustomer"],
                 }
 
                 # Perform pre-checkin
