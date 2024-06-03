@@ -105,19 +105,25 @@ if __name__ == "__main__":
             # Find the specific event
             events = []
 
-            date_in_ten_days = parse_date(
-                datetime.now().timestamp() + 60 * 60 * 24 * 12, include_weekday=False
-            )
+            dates_in_future = [
+                parse_date(
+                    datetime.now().timestamp() + 60 * 60 * 24 * i, include_weekday=False
+                )
+                for i in range(11, 15)
+            ]
 
             print(
-                f"Looking for courses at {preferred_location} on {date_in_ten_days}..."
+                f"Looking for courses at {preferred_location} on {dates_in_future}..."
             )
             for location in courses_data["content"]["locations"]:
                 if location is not None and location["name"] != preferred_location:
                     continue
                 for day in location["days"]:
                     for course in day["courses"]:
-                        if not date_in_ten_days in course["start_date"]:
+                        if not any(
+                            date_in_future in course["start_date"]
+                            for date_in_future in dates_in_future
+                        ):
                             continue
                         for lesson in lesson_profile["lessons"]:
                             if (
